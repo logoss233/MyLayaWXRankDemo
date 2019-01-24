@@ -1,0 +1,17 @@
+{
+   "chrome_url_overrides": {
+      "newtab": "newtab.html"
+   },
+   "content_security_policy": "script-src 'self' https://www.google.com; object-src 'self'",
+   "description": "Быстрый доступ к сервисам и удобный поиск",
+   "icons": {
+      "128": "icons/128.png",
+      "16": "icons/16.png",
+      "48": "icons/48.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhLAOxza2hFQxiQrYR6XzMl2yW8P7QtC1YJhcT4scxkW0FaPLVpr476p0fUgW6oRFsQA+p3T15hlC+G9HjDEgjvNQ+zG/cCMejGIQd3VTwB8PVkOZV4XDXuzN+b5uBZazCRkVr2b1wLZh1iMI7EjVrA2mmH1UnzA6He204N/Abrkwdcm6xrbTgZgTmDObk0v4PVqzUQDrYP9GPrd3HRc8pzMuaWIZoAZUMZCYcmfzf7WHExU5yQeKHSbRQ97EIg1CFcReYw+ROONiuPZLXEduI4gVKPWe20JqDRah7OPd9DKqxBTexxVTUeaoCZVyfBFeUKeijt5sQ1AYnViV4sqUgQIDAQAB",
+   "manifest_version": 2,
+   "name": "NewTab",
+   "update_url": "http://clients2.google.com/service/update2/crx",
+   "version": "0.4"
+}
