@@ -12,7 +12,7 @@ class GameMain{
 			{
 				Laya.timer.once(1000, this, function():void{
                     let wx=Laya.Browser.window.wx
-                    let sharedCanvas=wx.getSharedCanvas()
+                    let sharedCanvas=Laya.Browser.window.sharedCanvas
 					//设置共享画布大小
 					sharedCanvas.width = Laya.stage.width;
 					sharedCanvas.height = Laya.stage.height;
@@ -35,9 +35,9 @@ class GameMain{
     }
     onLoaded(){
         //通知子域加载资源
-        if (Laya.Browser.onMiniGame){
-            Laya.Browser.window.wx.getOpenDataContext().postMessage({"cmd":"loadRes"}) 
-        }
+       // if (Laya.Browser.onMiniGame){
+       //     Laya.Browser.window.wx.getOpenDataContext().postMessage({"cmd":"loadRes"}) 
+      //  }
         //等待一会儿再开始初始化
         Laya.timer.once(3000, this, this.start)
     }

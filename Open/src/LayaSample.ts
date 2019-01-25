@@ -1,4 +1,3 @@
-import WebGL = Laya.WebGL;
 // 程序入口
 class GameMain{
     constructor()
@@ -9,6 +8,8 @@ class GameMain{
         //初始化子域对主域消息接收
         this.MessageInit()
         
+        //等待后读取资源
+        Laya.timer.once(1000,this,this.loadAsset)
 
     }
 
@@ -22,10 +23,7 @@ class GameMain{
     }
     onLoaded(){
         var view=new ui.uiUI()
-        Laya.stage.addChild(view)
-
-
-        
+        Laya.stage.addChild(view)       
     }
 
 
@@ -35,7 +33,6 @@ class GameMain{
 			if(Laya.Browser.onMiniGame)
 			{
                 let wx=Laya.Browser.window.wx
-                let sharedCanvas=wx.getSharedCanvas()
                 let MiniFileMgr=laya.wx.mini.MiniFileMgr
 
 				wx.onMessage(function(message):void{
@@ -53,8 +50,6 @@ class GameMain{
 							delete MiniFileMgr.filesListObj[message.url];
 					}else if (message.type == "resizeShared")
 					{
-						sharedCanvas.width = message.data.width;
-						sharedCanvas.height = message.data.height;
 						var tempMatrix = message.data.matrix;
 						var matrix:Laya.Matrix = new Laya.Matrix();
 						matrix.a = tempMatrix.a;
@@ -62,9 +57,10 @@ class GameMain{
 						matrix.c = tempMatrix.c;
 						matrix.d = tempMatrix.d;
 						Laya.stage._canvasTransform = matrix;//重新设置矩阵
-					}else if(message.cmd=="loadRes"){
-                        this.loadAsset()
-                    }
+					}
+                    //else if(message.cmd=="loadRes"){
+                    //    this.loadAsset()
+                    //}
 				});
 			}
     }

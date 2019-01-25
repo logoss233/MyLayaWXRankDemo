@@ -25,7 +25,7 @@ var ui;
             _super.prototype.createChildren.call(this);
             this.createView(ui.uiUI.uiView);
         };
-        uiUI.uiView = { "type": "View", "props": { "width": 600, "height": 400 }, "child": [{ "type": "Text", "props": { "y": 0, "x": 0, "width": 315, "text": "主域", "height": 88, "fontSize": 60, "color": "#21d908" } }] };
+        uiUI.uiView = { "type": "View", "props": { "width": 600, "height": 400 }, "child": [{ "type": "Text", "props": { "y": 0, "x": 0, "width": 315, "text": "主域", "height": 88, "fontSize": 60, "color": "#21d908" } }, { "type": "Image", "props": { "y": 72, "x": 26, "width": 100, "skin": "comp/bg.png", "height": 265 } }] };
         return uiUI;
     }(View));
     ui.uiUI = uiUI;

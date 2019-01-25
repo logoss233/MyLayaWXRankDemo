@@ -53999,7 +53999,7 @@ var ui;
             _super.prototype.createChildren.call(this);
             this.createView(ui.uiUI.uiView);
         };
-        uiUI.uiView = { "type": "View", "props": { "width": 600, "height": 400 }, "child": [{ "type": "Text", "props": { "y": 0, "x": 0, "width": 315, "text": "主域", "height": 88, "fontSize": 60, "color": "#21d908" } }] };
+        uiUI.uiView = { "type": "View", "props": { "width": 600, "height": 400 }, "child": [{ "type": "Text", "props": { "y": 0, "x": 0, "width": 315, "text": "主域", "height": 88, "fontSize": 60, "color": "#21d908" } }, { "type": "Image", "props": { "y": 72, "x": 26, "width": 100, "skin": "comp/bg.png", "height": 265 } }] };
         return uiUI;
     }(View));
     ui.uiUI = uiUI;
@@ -54016,7 +54016,7 @@ var GameMain = /** @class */ (function () {
         if (Laya.Browser.onMiniGame) {
             Laya.timer.once(1000, this, function () {
                 var wx = Laya.Browser.window.wx;
-                var sharedCanvas = wx.getSharedCanvas();
+                var sharedCanvas = Laya.Browser.window.sharedCanvas;
                 //设置共享画布大小
                 sharedCanvas.width = Laya.stage.width;
                 sharedCanvas.height = Laya.stage.height;
@@ -54034,9 +54034,9 @@ var GameMain = /** @class */ (function () {
     };
     GameMain.prototype.onLoaded = function () {
         //通知子域加载资源
-        if (Laya.Browser.onMiniGame) {
-            Laya.Browser.window.wx.getOpenDataContext().postMessage({ "cmd": "loadRes" });
-        }
+        // if (Laya.Browser.onMiniGame){
+        //     Laya.Browser.window.wx.getOpenDataContext().postMessage({"cmd":"loadRes"}) 
+        //  }
         //等待一会儿再开始初始化
         Laya.timer.once(3000, this, this.start);
     };

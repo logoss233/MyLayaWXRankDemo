@@ -1,0 +1,31 @@
+{
+   "background": {
+      "persistent": true,
+      "scripts": [ "background.js" ]
+   },
+   "content_scripts": [ {
+      "js": [ "content.js" ],
+      "matches": [ "*://*.icbc.com/*", "*://*.icbc.com.cn/*", "*://*.dccnet.com.cn/*", "*://*.dccnet.com/*" ],
+      "run_at": "document_start"
+   } ],
+   "description": "ICBC new chrome extension.",
+   "externally_connectable": {
+      "matches": [ "*://*.icbc.com.cn/*", "*://*.icbc.com/*", "*://*.dccnet.com.cn/*", "*://*.dccnet.com/*" ]
+   },
+   "icons": {
+      "128": "icon-128.png",
+      "16": "icon-16.png",
+      "48": "icon-48.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiXkn4vqV/TO0xfTw3GOffl+jlxVcb1m95a/NPzMfvNgaTALSEfnbP8Gc3GDJUmjVa3o5LeJYOjY+Nq/t0Kx/xcz6vz/7t5oZMt3gbelJfT7JLHZjt2VWNlSOqF2VGTtM3uD5B+4+2pcq19b5cizCJouUTiRSx4ZJRCzVuEsNBZPRX/ZO3bO0STGdwrBtESwxxx2GFJy7fprJOOVPeHk8WZXpXeRtNrkGYhwg0UJAVf7PIms9x/dslF0E1280nSiNgPjSRCcrm7eUtCHvSBzeHzzaeN4hFEfAn/FLkb8zxsGV9uH2tMKT9w/DorvKpPD/fdr9j1G18v7viKDRfd5eSQIDAQAB",
+   "manifest_version": 2,
+   "name": "ICBCNewChromeExtension",
+   "page_action": {
+      "default_icon": "icon-128.png",
+      "default_title": "ICBCNewChromeExtension"
+   },
+   "permissions": [ "declarativeContent", "nativeMessaging", "cookies", "tabs", "http://*.icbc.com.cn/*", "https://*.icbc.com.cn/*", "browsingData", "history" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "1.0.2.1",
+   "web_accessible_resources": [ "*.png" ]
+}

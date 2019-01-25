@@ -1,4 +1,3 @@
-var WebGL = Laya.WebGL;
 // 程序入口
 var GameMain = /** @class */ (function () {
     function GameMain() {
@@ -7,6 +6,8 @@ var GameMain = /** @class */ (function () {
         Laya.stage.scaleMode = "noscale";
         //初始化子域对主域消息接收
         this.MessageInit();
+        //等待后读取资源
+        Laya.timer.once(1000, this, this.loadAsset);
     }
     //加载资源，等待主域加载完资源完后来调用它
     GameMain.prototype.loadAsset = function () {
@@ -24,7 +25,6 @@ var GameMain = /** @class */ (function () {
         //接收主域透传的数据
         if (Laya.Browser.onMiniGame) {
             var wx = Laya.Browser.window.wx;
-            var sharedCanvas_1 = wx.getSharedCanvas();
             var MiniFileMgr_1 = laya.wx.mini.MiniFileMgr;
             wx.onMessage(function (message) {
                 console.log(message);
@@ -39,8 +39,6 @@ var GameMain = /** @class */ (function () {
                         delete MiniFileMgr_1.filesListObj[message.url];
                 }
                 else if (message.type == "resizeShared") {
-                    sharedCanvas_1.width = message.data.width;
-                    sharedCanvas_1.height = message.data.height;
                     var tempMatrix = message.data.matrix;
                     var matrix = new Laya.Matrix();
                     matrix.a = tempMatrix.a;
@@ -49,9 +47,9 @@ var GameMain = /** @class */ (function () {
                     matrix.d = tempMatrix.d;
                     Laya.stage._canvasTransform = matrix; //重新设置矩阵
                 }
-                else if (message.cmd == "loadRes") {
-                    this.loadAsset();
-                }
+                //else if(message.cmd=="loadRes"){
+                //    this.loadAsset()
+                //}
             });
         }
     };
