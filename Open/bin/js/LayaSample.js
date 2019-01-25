@@ -3,7 +3,7 @@ var GameMain = /** @class */ (function () {
     function GameMain() {
         Laya.MiniAdpter.init(true, true);
         Laya.init(1136, 640);
-        Laya.stage.scaleMode = "noscale";
+        Laya.stage.scaleMode = Laya.Stage.SCALE_EXACTFIT;
         //初始化子域对主域消息接收
         this.MessageInit();
         //生成ui页面

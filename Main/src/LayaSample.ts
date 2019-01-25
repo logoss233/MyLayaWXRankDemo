@@ -16,7 +16,7 @@ class GameMain{
 					//设置共享画布大小
 					sharedCanvas.width = Laya.stage.width;
 					sharedCanvas.height = Laya.stage.height;
-					//主域往子域透传消息
+					//主域往子域传消息
 					wx.postMessage({type:"resizeShared",url:"",data:{width:Laya.stage.width,height:Laya.stage.height,matrix:Laya.stage._canvasTransform},isLoad:false});
 				});
 			}
@@ -34,10 +34,10 @@ class GameMain{
         Laya.loader.load(asset,Laya.Handler.create(this,this.onLoaded))
     }
     onLoaded(){
-        //通知子域加载资源
-        if (Laya.Browser.onMiniGame){
-            Laya.Browser.window.wx.getOpenDataContext().postMessage({"cmd":"loadRes"}) 
-        }
+        // //通知子域加载资源   目前子域需要资源 暂时不需要
+        // if (Laya.Browser.onMiniGame){
+        //     Laya.Browser.window.wx.getOpenDataContext().postMessage({"cmd":"loadRes"}) 
+        // }
         //等待一会儿再开始初始化
         Laya.timer.once(3000, this, this.start)
     }

@@ -53989,44 +53989,137 @@ var View = laya.ui.View;
 var Dialog = laya.ui.Dialog;
 var ui;
 (function (ui) {
-    var uiUI = /** @class */ (function (_super) {
-        __extends(uiUI, _super);
-        function uiUI() {
+    var rankUI = /** @class */ (function (_super) {
+        __extends(rankUI, _super);
+        function rankUI() {
             return _super.call(this) || this;
         }
-        uiUI.prototype.createChildren = function () {
+        rankUI.prototype.createChildren = function () {
             View.regComponent("Text", laya.display.Text);
             _super.prototype.createChildren.call(this);
-            this.createView(ui.uiUI.uiView);
+            this.createView(ui.rankUI.uiView);
         };
-        uiUI.uiView = { "type": "View", "props": { "width": 1136, "height": 640 }, "child": [{ "type": "Text", "props": { "y": 273, "x": 457, "width": 308, "text": "子域", "height": 126, "fontSize": 50, "color": "#4cef00" } }, { "type": "Image", "props": { "y": 75, "x": 644, "skin": "comp/image.png" } }] };
-        return uiUI;
+        rankUI.uiView = { "type": "View", "props": { "width": 1136, "top": 0, "left": 0, "height": 640 }, "child": [{ "type": "Rect", "props": { "y": 26, "x": 288, "width": 505, "lineWidth": 1, "height": 531, "fillColor": "#233b2d" } }, { "type": "List", "props": { "y": 94, "x": 313, "width": 464, "var": "rankList", "height": 401 }, "child": [{ "type": "Box", "props": { "width": 464, "renderType": "render", "height": 88 }, "child": [{ "type": "Rect", "props": { "y": 0, "x": 0, "width": 464, "lineWidth": 0, "height": 86, "fillColor": "#c1c0ba" } }, { "type": "Image", "props": { "y": 8, "x": 89, "width": 70, "name": "avatar", "height": 70 } }, { "type": "Text", "props": { "y": 23, "x": -52, "width": 120, "text": "1", "overflow": "hidden", "name": "rankLabel", "height": 26, "fontSize": 40, "font": "SimSun", "color": "#84592E", "align": "right" } }, { "type": "Text", "props": { "y": 30, "x": 170, "width": 120, "text": "1", "overflow": "hidden", "name": "nickname", "height": 26, "fontSize": 26, "font": "SimSun", "color": "#84592E", "align": "left" } }, { "type": "Text", "props": { "y": 10, "x": 298, "width": 81, "text": "总分:", "name": "scoreText", "height": 26, "fontSize": 26, "font": "SimSun", "color": "#BA9F7B", "align": "left" } }, { "type": "Text", "props": { "y": 10, "x": 366, "width": 89, "text": "99999", "name": "scoreNum", "height": 26, "fontSize": 26, "font": "SimSun", "color": "#F07538", "align": "center" } }, { "type": "Text", "props": { "y": 47, "x": 307, "width": 134, "text": "2018/7/5", "overflow": "hidden", "name": "dateString", "height": 26, "fontSize": 26, "font": "SimSun", "color": "#BA9F7B", "align": "right" } }] }] }, { "type": "Text", "props": { "y": 39, "x": 481, "text": "排行榜", "fontSize": 40, "color": "#ffffff" } }] };
+        return rankUI;
     }(View));
-    ui.uiUI = uiUI;
+    ui.rankUI = rankUI;
 })(ui || (ui = {}));
 //# sourceMappingURL=layaUI.max.all.js.map
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var $rankView;
+var RankView = /** @class */ (function (_super) {
+    __extends(RankView, _super);
+    function RankView() {
+        var _this = _super.call(this) || this;
+        $rankView = _this;
+        _this.rankList.vScrollBarSkin = "";
+        _this.rankList.renderHandler = new Laya.Handler(_this, _this.rankListRender);
+        _this.rankList.array = [];
+        return _this;
+    }
+    //重置排行榜
+    RankView.prototype.showRankList = function () {
+        var _this = this;
+        //获取好友排行榜数据
+        var wx = Laya.Browser.window.wx;
+        wx.getFriendCloudStorage({
+            keyList: ['week_score'],
+            success: function (res) {
+                _this.processFriendDataList(res.data);
+                _this.rankList.scrollTo(0);
+            }
+        });
+        //展示
+        //this.mockList();
+    };
+    RankView.prototype.processFriendDataList = function (data) {
+        var mondayTimestamp = $gameMain.getMondayTimestamp();
+        var resultArr = [];
+        //console.log(data);
+        var len = data.length;
+        for (var i = 0; i < len; i++) {
+            var kvLen = data[i]["KVDataList"].length;
+            for (var j = 0; j < kvLen; j++) {
+                if (data[i]["KVDataList"][j]["key"] == 'week_score') {
+                    var valueJson = JSON.parse(data[i]["KVDataList"][j]["value"]);
+                    if (valueJson["wxgame"]["update_time"] >= mondayTimestamp) { //是本周的
+                        var newDate = new Date(valueJson["wxgame"]["update_time"] * 1000);
+                        resultArr.push({
+                            "avatar": data[i]["avatarUrl"],
+                            "nickname": data[i]["nickname"],
+                            "scoreNum": valueJson["wxgame"]["score"],
+                            "dateString": newDate.getFullYear() + "/" + (newDate.getMonth() + 1) + "/" + newDate.getDate()
+                        });
+                    }
+                    break;
+                }
+            }
+        }
+        resultArr.sort(function (a, b) { return b["scoreNum"] - a["scoreNum"]; });
+        this.rankList.array = resultArr;
+    };
+    RankView.prototype.mockList = function () {
+        var num = Math.round(1 + 10 * Math.random());
+        var arr = [];
+        for (var i = 0; i < num; i++) {
+            arr.push({ "avatar": "", "nickname": "测试" + i, "scoreNum": Math.round(num * Math.random()), "dateString": "2018/9/30" });
+        }
+        arr.sort(function (a, b) { return b["scoreNum"] - a["scoreNum"]; });
+        this.rankList.array = arr;
+    };
+    RankView.prototype.rankListRender = function (cell, index) {
+        var arr = this.rankList.array;
+        if (index >= arr.length) {
+            return;
+        }
+        cell.getChildByName("avatar").skin = arr[index]["avatar"];
+        cell.getChildByName("nickname").text = arr[index]["nickname"];
+        cell.getChildByName("scoreNum").text = arr[index]["scoreNum"];
+        cell.getChildByName("dateString").text = arr[index]["dateString"];
+        cell.getChildByName("rankLabel").text = String(index + 1);
+    };
+    return RankView;
+}(ui.rankUI));
+//# sourceMappingURL=RankView.js.map
 // 程序入口
 var GameMain = /** @class */ (function () {
     function GameMain() {
         Laya.MiniAdpter.init(true, true);
         Laya.init(1136, 640);
-        Laya.stage.scaleMode = "noscale";
+        Laya.stage.scaleMode = Laya.Stage.SCALE_EXACTFIT;
         //初始化子域对主域消息接收
         this.MessageInit();
+        //生成ui页面
+        var rankView = new RankView();
+        Laya.stage.addChild(rankView);
     }
-    //加载资源，等待主域加载完资源完后来调用它
-    GameMain.prototype.loadAsset = function () {
-        var asset = [
-            "res/atlas/comp.atlas",
-        ];
-        Laya.loader.load(asset, Laya.Handler.create(this, this.onLoaded));
-    };
-    GameMain.prototype.onLoaded = function () {
-        var view = new ui.uiUI();
-        Laya.stage.addChild(view);
-    };
+    //加载资源，等待主域加载完资源完后来调用它  
+    //由于没有用到资源，暂时不需要
+    // loadAsset(){
+    //     var asset=[
+    //         "res/atlas/comp.atlas",
+    //     ]
+    //     Laya.loader.load(asset,Laya.Handler.create(this,this.onLoaded))
+    // }
+    // onLoaded(){
+    //     var rankView=new RankView()
+    //     Laya.stage.addChild(rankView)       
+    // }
     //初始化对主域消息的接收
     GameMain.prototype.MessageInit = function () {
+        var _this = this;
         //接收主域透传的数据
         if (Laya.Browser.onMiniGame) {
             var wx = Laya.Browser.window.wx;
@@ -54053,7 +54146,64 @@ var GameMain = /** @class */ (function () {
                     Laya.stage._canvasTransform = matrix; //重新设置矩阵
                 }
                 else if (message.cmd == "loadRes") {
-                    $gameMain.loadAsset();
+                    //this.loadAsset()
+                    //由于没有用到资源，暂时不需要
+                }
+                else if (message.cmd == "setScore") {
+                    _this.setWeekScore(message.score);
+                }
+                else if (message.cmd = "showRank") {
+                    //开启，刷新
+                    $rankView.showRankList();
+                }
+            });
+        }
+    };
+    //获取时间戳
+    GameMain.prototype.getMondayTimestamp = function () {
+        var newDate = new Date();
+        var day = newDate.getDay();
+        var hour = newDate.getHours();
+        var minute = newDate.getMinutes();
+        var second = newDate.getSeconds();
+        var diffSeconds = ((7 + day - 1) % 7) * 24 * 3600 + hour * 3600 + minute * 60 + second;
+        var timestamp = newDate.valueOf() / 1000 - diffSeconds;
+        //console.log((new Date(timestamp * 1000)).toLocaleDateString());
+        return timestamp;
+    };
+    //设置分数
+    GameMain.prototype.setWeekScore = function (score) {
+        if (Laya.Browser.onMiniGame) {
+            var wx_1 = Laya.Browser.window.wx;
+            var mondayTimestamp_1 = this.getMondayTimestamp();
+            wx_1.getUserCloudStorage({
+                keyList: ['week_score'],
+                success: function (res) {
+                    var nowNum = 0;
+                    var kvLen = res["KVDataList"].length;
+                    for (var j = 0; j < kvLen; j++) {
+                        if (res["KVDataList"][j]["key"] == 'week_score') {
+                            var valueJson = JSON.parse(res["KVDataList"][j]["value"]);
+                            if (valueJson["wxgame"]["update_time"] >= mondayTimestamp_1) { //是本周的
+                                nowNum = valueJson["wxgame"]["score"];
+                            }
+                            break;
+                        }
+                    }
+                    //修改分数
+                    if (score < nowNum) {
+                        return;
+                    }
+                    nowNum = score;
+                    wx_1.setUserCloudStorage({
+                        KVDataList: [{ "key": 'week_score', "value": JSON.stringify({ "wxgame": { "score": nowNum, "update_time": Math.round((new Date()).valueOf() / 1000) } }) }],
+                        success: function (res) {
+                            console.log("设置周数据成功，" + res);
+                        },
+                        fail: function (res) {
+                            console.log("设置周数据失败，" + res);
+                        }
+                    });
                 }
             });
         }
