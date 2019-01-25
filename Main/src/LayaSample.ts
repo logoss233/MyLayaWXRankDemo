@@ -35,9 +35,9 @@ class GameMain{
     }
     onLoaded(){
         //通知子域加载资源
-       // if (Laya.Browser.onMiniGame){
-       //     Laya.Browser.window.wx.getOpenDataContext().postMessage({"cmd":"loadRes"}) 
-      //  }
+        if (Laya.Browser.onMiniGame){
+            Laya.Browser.window.wx.getOpenDataContext().postMessage({"cmd":"loadRes"}) 
+        }
         //等待一会儿再开始初始化
         Laya.timer.once(3000, this, this.start)
     }
