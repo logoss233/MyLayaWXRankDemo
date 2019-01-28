@@ -1,3 +1,5 @@
-2019/01/25-17:14:07.926 2404 Reusing MANIFEST g:\layaProject\MyLayaWXRankDemo\Open\.laya\chrome\Default\Site Characteristics Database/MANIFEST-000001
-2019/01/25-17:14:07.927 2404 Recovering log #6
-2019/01/25-17:14:07.927 2404 Reusing old log g:\layaProject\MyLayaWXRankDemo\Open\.laya\chrome\Default\Site Characteristics Database/000006.log 
+2019/01/28-21:57:21.037 1e10 Log #6: 0 ops saved to Table #7 OK
+2019/01/28-21:57:21.038 1e10 Archiving c:\Users\Administrator\Desktop\LayaProject\MyLayaWXRankDemo\Open\.laya\chrome\Default\Site Characteristics Database/000006.log: OK
+2019/01/28-21:57:21.039 1e10 Table #4: 1 entries OK
+2019/01/28-21:57:21.042 1e10 Archiving c:\Users\Administrator\Desktop\LayaProject\MyLayaWXRankDemo\Open\.laya\chrome\Default\Site Characteristics Database/MANIFEST-000001: OK
+2019/01/28-21:57:21.536 1e10 **** Repaired leveldb c:\Users\Administrator\Desktop\LayaProject\MyLayaWXRankDemo\Open\.laya\chrome\Default\Site Characteristics Database; recovered 1 files; 130 bytes. Some data may have been lost. ****

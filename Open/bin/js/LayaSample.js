@@ -1,7 +1,7 @@
 // 程序入口
 var GameMain = /** @class */ (function () {
     function GameMain() {
-        Laya.MiniAdpter.init(true, true);
+        Laya.MiniAdpter.init(false, true); //需要传资源，暂时设为false
         Laya.init(1136, 640);
         Laya.stage.scaleMode = Laya.Stage.SCALE_EXACTFIT;
         //初始化子域对主域消息接收
